@@ -6,7 +6,7 @@ import CourseDetails from './pages/student/CourseDetails';
 import Player from './pages/student/Player';
 import MyEnrollments from './pages/student/MyEnrollments';
 import Loading from './components/student/Loading';
-import Educator from './pages/educator/Dashboard';
+import Educator from './pages/educator/Educator';
 import AddCourse from './pages/educator/AddCourse';
 import MyCourses from './pages/educator/MyCourses';
 import StudentsEnrolled from './pages/educator/StudentsEnrolled';
