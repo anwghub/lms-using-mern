@@ -4,8 +4,8 @@ import { assets } from '../../assets/assets'
 const Footer = () => {
   return (
     <div>
-      <footer className='bg-gray-900 md:px-36 text-left w-full mt-10'>
-        <div className='flex flex-col md:flex-row justify-between items-start text-white p-6 space-y-4 md:space-y-0 gap-10 md:gap-50'>
+      <footer className='bg-gray-900 md:px-42 md:py-5 text-left w-full mt-10'>
+        <div className='flex flex-col md:flex-row justify-between items-start text-white p-6  md:space-y-0 gap-10 md:gap-50 w-full'>
           <div className='flex flex-col md:items-start items-center w-full'>
             <img src={assets.logo_dark} alt="logo" />
             <p className='mt-6 text-center md:text-left text-sm text-white/80'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde doloribus est nostrum molestiae!</p>

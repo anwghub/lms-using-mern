@@ -3,16 +3,14 @@ import { AppContext } from '../../context/AppContext';
 import Loading from '../../components/student/Loading';
 
 const MyCourses = () => {
-  const { currency, allcourses } = useContext(AppContext);
+  const { currency, allCourses } = useContext(AppContext);
   const [courses, setCourses] = useState(null);
 
-  const fetchEducatorCourses = async () => {
-    setCourses(allcourses);
-  };
-
   useEffect(() => {
-    fetchEducatorCourses();
-  }, []);
+    if (allCourses && allCourses.length > 0) {
+      setCourses(allCourses);
+    }
+  }, [allCourses]);
 
   return courses ? (
     <div className='h-screen flex flex-col items-start justify-between md:p-8 md:pb-0 p-4 pb-0 pt-8'>
@@ -32,15 +30,14 @@ const MyCourses = () => {
               {courses.map((course) => (
                 <tr key={course._id} className='border-b border-gray-500/20'>
                   <td className='md:px-4 pl-2 md:pl-4 py-3 flex items-center space-x-3'>
-                    <img src={course.courseThumbnail} alt="Course Image" className='w-16' />
-                    <span className='truncate hidden md:block'>{course.courseTitle} </span>
+                    <img src={course.courseThumbnail} alt="Course" className='w-16' />
+                    <span className='truncate hidden md:block'>{course.courseTitle}</span>
                   </td>                  
-                  <td className='px-4 py-3 '>
-                    {currency} {Math.floor(course.enrolledStudents.length * (course.coursePrice - course.discount * course.coursePrice / 100))}
+                  <td className='px-4 py-3'>
+                    {currency} {Math.floor(course.enrolledStudents.length * (course.coursePrice - (course.discount * course.coursePrice / 100)))}
                   </td>
-                  <td className='px-4 py-3'>{course.enrolledStudents.length} </td>
-                  <td className='px-4 py-3'>{new Date(course.createdAt).toLocaleDateString()} </td>
-                  
+                  <td className='px-4 py-3'>{course.enrolledStudents.length}</td>
+                  <td className='px-4 py-3'>{new Date(course.createdAt).toLocaleDateString()}</td>
                 </tr>
               ))}
             </tbody>
