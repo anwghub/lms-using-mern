@@ -1,8 +1,7 @@
 import Course from '../models/Course.js';
-import Purchase from '../models/Purchase.js';
 
 //get all courses
-export const getAllCourses = async (req, res) => {
+export const getAllCourse = async (req, res) => {
     try {
         const courses = await Course.find({isPublished: true}).select (['-courseContent', '-enrolledStudents']).populate({path:'educator'});
 
@@ -30,3 +29,4 @@ export const getCourseById = async (req, res) => {
         res.json({ success: false, message: error.message });
     }
 }
+
