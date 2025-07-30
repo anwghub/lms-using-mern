@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import Course from "./Course";
-import User from "./User";
+import Course from "./Course.js";
+import User from "./User.js";
 
 const PurchaseSchema = new mongoose.Schema({
     CourseId: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true },
@@ -10,3 +10,5 @@ const PurchaseSchema = new mongoose.Schema({
 },{timestamps: true});
 
 const Purchase = mongoose.model('Purchase', PurchaseSchema);
+
+export default Purchase;

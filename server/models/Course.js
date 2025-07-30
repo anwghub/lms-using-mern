@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Purchase from './Purchase.js'
 
 
 const lectureSchema = new mongoose.Schema({
@@ -23,7 +24,7 @@ const chapterSchema = new mongoose.Schema({
 const courseSchema = new mongoose.Schema({
     courseTitle: { type: String, required: true },
     courseDescription: { type: String, required: true },
-    icourseThumbnail: { type: String },
+    courseThumbnail: { type: String },
     coursePrice: { type: Number, required: true },
     isPublished: { type: Boolean, default: true },
     discount: { type: Number, required: true, min: 0, max:100 },
@@ -33,7 +34,7 @@ const courseSchema = new mongoose.Schema({
         userId: { type: String },
         rating: { type: Number,  min: 1, max: 5 },
     }],
-    educator: { type: string, ref: 'User', required: true },
+    educator: { type: String, ref: 'User', required: true },
     enrolledStudents: [{ type: String, ref: 'User' }],
 }, {timestamps: true, minimize: false});     
 
