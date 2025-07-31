@@ -74,7 +74,7 @@ export const educatorDashboardData = async (req, res) => {
 
         //calculate total earnings
         const purchases = await Purchase.find({
-            course: { $in: courseIds },
+            courseId: { $in: courseIds },
             status: 'completed'
         });
 
@@ -82,10 +82,11 @@ export const educatorDashboardData = async (req, res) => {
 
         //collect unique enrolled students ids with thier course titles
         const enrolledStudentData = [];
-        for(const course of courses){
+        for (const course of courses) {
             const students = await User.find({
-                _id: { $in: course.enrolledStudents }},'name imageUrl');
-            
+                _id: { $in: course.enrolledStudents }
+            }, 'name imageUrl');
+
             students.forEach(student => {
                 enrolledStudentData.push({
                     courseTitle: course.courseTitle,
@@ -95,9 +96,11 @@ export const educatorDashboardData = async (req, res) => {
         }
 
         res.json({
-            success: true, dashboardData:{totalCourses,
-            totalEarnings,
-            enrolledStudentsData: enrolledStudentData}            
+            success: true, dashboardData: {
+                totalCourses,
+                totalEarnings,
+                enrolledStudentsData: enrolledStudentData
+            }
         });
 
 
@@ -112,8 +115,9 @@ export const getEnrolledStudentsData = async (req, res) => {
         const educator = req.auth.userId;
         const courses = await Course.find({ educator });
         const courseIds = courses.map(course => course._id);
-        const purchases = await Purchase.find({ courseId: {$in : courseIds}, status: 'completed' })
-            .populate('userId', 'name imageUrl');
+        const purchases = await Purchase.find({ courseId: { $in: courseIds }, status: 'completed' })
+            .populate('userId', 'name imageUrl')
+            .populate('courseId', 'courseTitle');
 
         const enrolledStudents = purchases.map(purchase => ({
             student: purchase.userId,

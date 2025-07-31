@@ -26,11 +26,11 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    if (!isEducator) {
+    if (isEducator) {
       fetchDashboardData();
     }
 
-  }, [])
+  }, [isEducator])
 
   return dashboardData ? (
     <div className='min-h-screen flec flex-col items-start justify-between gap-8 md:pb-0 p-4 pt-8 pb-0'>
