@@ -4,15 +4,30 @@ import { assets, dummyDashboardData } from '../../assets/assets';
 import Loading from '../../components/student/Loading'
 
 const Dashboard = () => {
-  const { currency } = useContext(AppContext);
+  const { currency, backendUrl, getToken, isEducator } = useContext(AppContext);
   const [dashboardData, setDashboardData] = useState(null);
 
   const fetchDashboardData = async () => {
-    setDashboardData(dummyDashboardData);
+    try {
+      const token = await getToken();
+      const { data } = await axios.get(backendUrl + '/api/educator/dashboard', { headers: { Authorization: `Bearer ${token}` } });
+
+      if (data.success) {
+        setDashboardData(data.dashboardData);
+      } else {
+        toast.error(data.message);
+      }
+
+    } catch (error) {
+      toast.error(error.message);
+    }
   }
 
   useEffect(() => {
-    fetchDashboardData()
+    if (!isEducator) {
+      fetchDashboardData();
+    }
+
   }, [])
 
   return dashboardData ? (
@@ -58,14 +73,14 @@ const Dashboard = () => {
             <tbody className='text-gray-500'>
               {dashboardData.enrolledStudentsData.map((item, index) => (
                 <tr key={index} className='border-b border-gray-500/20'>
-                  <td className='px-4 py-3 text-center hidden sm:table-cell'>{index+1} </td>
+                  <td className='px-4 py-3 text-center hidden sm:table-cell'>{index + 1} </td>
                   <td className='md:px-4 pl-2 md:pl-4 py-3 flex items-center space-x-3'>
                     <img src={item.student.imageUrl} alt="Profile" className='w-9 h-9 rounded-full' />
                     <span className='truncate'>{item.student.name} </span>
                   </td>
                   <td className='px-4 py-3 truncate'>
                     {item.courseTitle}
-                  </td>                              
+                  </td>
                 </tr>
               ))}
             </tbody>
