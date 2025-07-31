@@ -23,7 +23,7 @@ export const updateRoleToEducator = async (req, res) => {
 //Add are course
 export const addCourse = async (req, res) => {
     try {
-        const { coursedata } = req.body;
+        const { courseData } = req.body;
         const imageFile = req.file;
         const educatorId = req.auth.userId;
 
@@ -31,11 +31,17 @@ export const addCourse = async (req, res) => {
             return res.json({ success: false, message: "Thumbnail not attached" });
         }
 
-        const parsedCourseData = JSON.parse(coursedata);
+        const parsedCourseData = JSON.parse(courseData);
+        console.log("PARSED COURSE DATA:", parsedCourseData);
+
         parsedCourseData.educator = educatorId;
-        const newCourse = await Course.create(parsedCourseData)
+        const newCourse = await Course.create(parsedCourseData);
+        console.log("Uploading image to Cloudinary:", imageFile.path);
+
         const imageUpload = await cloudinary.uploader.upload(imageFile.path);
         newCourse.courseThumbnail = imageUpload.secure_url;
+        console.log("Cloudinary upload result:", imageUpload);
+
 
         await newCourse.save();
 
@@ -89,9 +95,9 @@ export const educatorDashboardData = async (req, res) => {
         }
 
         res.json({
-            success: true, dasboardData:{totalCourses,
+            success: true, dashboardData:{totalCourses,
             totalEarnings,
-            enrolledStudents: enrolledStudentData}            
+            enrolledStudentsData: enrolledStudentData}            
         });
 
 
@@ -105,17 +111,17 @@ export const getEnrolledStudentsData = async (req, res) => {
     try {
         const educator = req.auth.userId;
         const courses = await Course.find({ educator });
-        const courseId = courses.map(course => course._id);
+        const courseIds = courses.map(course => course._id);
         const purchases = await Purchase.find({ courseId: {$in : courseIds}, status: 'completed' })
             .populate('userId', 'name imageUrl');
 
         const enrolledStudents = purchases.map(purchase => ({
             student: purchase.userId,
             courseTitle: purchase.courseId.courseTitle,
-            purchasedate: purchase.createdAt
+            purchaseDate: purchase.createdAt
         }));
 
-        res.json({ success: true, purchases });
+        res.json({ success: true, enrolledStudents });
     } catch (error) {
         res.json({ success: false, message: error.message });
     }

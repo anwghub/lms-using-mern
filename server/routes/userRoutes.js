@@ -1,7 +1,10 @@
 import express from 'express';
+import { clerkMiddleware } from '@clerk/express';
 import {getUserData, purchaseCourse, userEnrolledCourses, getUserCourseProgress, updateUserCourseProgress, addUserRating} from '../controllers/userController.js';
 
 const userRouter = express.Router();
+
+userRouter.use(clerkMiddleware());
 
 userRouter.get('/data', getUserData);
 userRouter.get('/enrolled-courses', userEnrolledCourses);

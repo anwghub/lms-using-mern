@@ -4,6 +4,7 @@ import CourseList from './CourseList'
 import { Line } from 'rc-progress';
 import Footer from '../../components/student/Footer';
 import { data } from 'react-router-dom';
+import axios from 'axios';
 
 const MyEnrollments = () => {
 

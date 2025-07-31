@@ -39,10 +39,10 @@ const CourseDetails = () => {
         return toast.warn('Login to enroll')
       } 
       if(isAlreadyEnrolled) {
-        toast.warn('Already enrolled')
+        return toast.warn('Already enrolled')
       }
       const token = await getToken()
-      const {data}=  await axios.get(backendUrl + '/api/educator/purchase', {courseId: courseData._id}, { headers: { Authorization: `Bearer ${token}` }});
+      const {data}=  await axios.post(backendUrl + '/api/educator/purchase', {courseId: courseData._id}, { headers: { Authorization: `Bearer ${token}` }});
 
       if(data.success){
         const {session_url} = data;

@@ -4,6 +4,7 @@ import uniqid from 'uniqid';
 import { assets } from '../../assets/assets';
 import { AppContext } from '../../context/AppContext';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const AddCourse = () => {
 
@@ -120,7 +121,7 @@ const AddCourse = () => {
       formData.append('image', image);
 
       const token = await getToken();
-      const { data } = await axios.get(backendUrl + '/api/educator/add-course', formData, { headers: { Authorization: `Bearer ${token}` } });
+      const { data } = await axios.post(backendUrl + '/api/educator/add-course', formData, { headers: { Authorization: `Bearer ${token}` } });
 
       if (data.success) {
         toast.success(data.courseData);
