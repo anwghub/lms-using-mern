@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import User from './User';
-import Course from './Course';
+import User from './User.js';
+import Course from './Course.js';
 
 const courseProgressSchema = new mongoose.Schema({
     userId: {type:String, required: true},
