@@ -27,7 +27,7 @@ const CourseCard = ({ course }) => {
               <img
                 src={i < Math.floor(calculateRating(course)) ? assets.star : assets.star_blank}
                 alt="star"
-                className='w-3.5 h-3.5'y
+                className='w-3.5 h-3.5'
                 key={i}
               />
             ))}
